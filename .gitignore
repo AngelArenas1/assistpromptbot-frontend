@@ -1,0 +1,5 @@
+# Ignora node_modules si lo tuvieras
+node_modules/
+
+# No subas claves ni entornos
+.env

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AssistPromptBot</title>
+  <!-- Enlazamos el CSS externo -->
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="icons/icon-128x128.png" alt="Logo AssistPromptBot"/>
+      <h1>AssistPromptBot</h1>
+    </header>
+
+    <!-- Selección de especialidad -->
+    <label for="specialty">Selecciona tu especialidad</label>
+    <select id="specialty">
+      <option>General</option>
+      <option>Medicina Interna</option>
+      <option>Pediatría</option>
+      <option>Anestesiología</option>
+      <option>Cirugía General</option>
+      <option>Ginecología y Obstetricia</option>
+      <option>Cuidados Intensivos</option>
+      <option>Urgenciología</option>
+      <option>Infectología</option>
+      <option>Nefrología</option>
+      <option>Reumatología</option>
+      <option>Otras Especialidades</option>
+    </select>
+
+    <!-- Selección de tipo de prompt -->
+    <label for="tipoPrompt">Selecciona el tipo de Prompt</label>
+    <select id="tipoPrompt" onchange="onContextChange()">
+      <option value="">-- Elige un contexto --</option>
+      <option value="texto">Generador de texto</option>
+      <option value="datos">Análisis de datos estructurados</option>
+      <option value="clinico">Análisis de casos clínicos</option>
+      <option value="asistente">Creación de Asistentes Virtuales</option>
+    </select>
+
+    <!-- Aquí inyectamos la sugerencia técnica y el formulario -->
+    <div id="formHeader" class="form-header"></div>
+    <div id="formContainer"></div>
+
+    <!-- Prompt generado -->
+    <label for="resultado">Tu Prompt</label>
+    <textarea id="resultado" rows="4" placeholder="Aquí aparecerá el Prompt"></textarea>
+
+    <div class="actions">
+      <button onclick="copiarPrompt()">📋 Copiar Prompt</button>
+    </div>
+
+    <!-- Modelo e IA complementaria -->
+    <div class="model-ia">
+      <div><strong>💡 Modelo sugerido:</strong> <span id="modeloSugerido"></span></div>
+      <div><strong>🔗 IA complementarias:</strong> <span id="sugerenciaIA"></span></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

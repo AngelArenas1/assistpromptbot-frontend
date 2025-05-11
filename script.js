@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 function showForm() {
   const type = document.getElementById("promptType").value;
   const form = document.getElementById("formulario");
@@ -216,7 +215,6 @@ showForm = function () {
   const tipo = document.getElementById("promptType").value;
   mostrarEjemplo(tipo);
 };
-=======
 // Cabeceras técnicas
 const formHeaders = {
   texto:     "🔎 Sugerencia técnica: Define rol experto, tarea, contexto y formato de salida.",
@@ -351,4 +349,3 @@ function copiarPrompt() {
   document.execCommand("copy");
   alert("✅ Prompt copiado al portapapeles.");
 }
->>>>>>> 357b0fb (Frontend actualizado con selector de especialidad y estructura moderna)

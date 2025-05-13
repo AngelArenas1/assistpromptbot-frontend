@@ -1,221 +1,6 @@
-function showForm() {
-  const type = document.getElementById("promptType").value;
-  const form = document.getElementById("formulario");
-  const output = document.getElementById("resultado");
-  output.textContent = "";
+// Script.js - AssistPromptBot
 
-  const forms = {
-    texto: `
-      <label>Especialidad o rol experto:</label>
-      <input type="text" id="rol" placeholder="Ej: Médico especialista en Pediatría">
-      <label>Tarea específica:</label>
-      <input type="text" id="tarea" placeholder="Ej: redactar resumen clínico...">
-      <label>Contexto o audiencia:</label>
-      <input type="text" id="contexto" placeholder="Ej: para estudiantes de medicina">
-      <label>Estilo o tono deseado:</label>
-      <input type="text" id="tono" placeholder="Ej: académico, claro, formal">
-      <label>Formato de salida:</label>
-      <input type="text" id="formato" placeholder="Ej: lista con 3 puntos clave">
-      <button onclick="generarTexto()">Generar Prompt</button>
-    `,
-    datos: `
-      <label>Rol analítico de la IA:</label>
-      <input type="text" id="rol">
-      <label>Descripción del conjunto de datos:</label>
-      <textarea id="datos"></textarea>
-      <label>Tareas de análisis:</label>
-      <input type="text" id="tareas">
-      <label>Formato de resultados:</label>
-      <input type="text" id="formato">
-      <button onclick="generarDatos()">Generar Prompt</button>
-    `,
-    clinico: `
-      <label>Rol del profesional:</label>
-      <input type="text" id="rol">
-      <label>Datos del caso clínico:</label>
-      <textarea id="caso"></textarea>
-      <label>Tarea clínica solicitada:</label>
-      <input type="text" id="tarea">
-      <label>Formato de respuesta:</label>
-      <input type="text" id="formato">
-      <button onclick="generarClinico()">Generar Prompt</button>
-    `,
-    asistente: `
-      <label>Nombre y misión del asistente:</label>
-      <input type="text" id="nombre">
-      <label>Público objetivo:</label>
-      <input type="text" id="publico">
-      <label>Personalidad y tono:</label>
-      <input type="text" id="tono">
-      <label>Reglas de comportamiento:</label>
-      <textarea id="reglas"></textarea>
-      <button onclick="generarAsistente()">Generar Prompt</button>
-    `
-  };
-
-  form.innerHTML = forms[type] || "";
-}
-
-// Funciones generadoras
-function generarTexto() {
-  const rol = document.getElementById("rol").value;
-  const tarea = document.getElementById("tarea").value;
-  const contexto = document.getElementById("contexto").value;
-  const tono = document.getElementById("tono").value;
-  const formato = document.getElementById("formato").value;
-  document.getElementById("resultado").textContent =
-    `Eres ${rol}. Tu tarea es ${tarea}. Contexto: ${contexto}. Estilo: ${tono}. Formato: ${formato}.`;
-}
-
-function generarDatos() {
-  const rol = document.getElementById("rol").value;
-  const datos = document.getElementById("datos").value;
-  const tareas = document.getElementById("tareas").value;
-  const formato = document.getElementById("formato").value;
-  document.getElementById("resultado").textContent =
-    `${rol}. Base de datos: ${datos}. Tareas: ${tareas}. Formato: ${formato}.`;
-}
-
-function generarClinico() {
-  const rol = document.getElementById("rol").value;
-  const caso = document.getElementById("caso").value;
-  const tarea = document.getElementById("tarea").value;
-  const formato = document.getElementById("formato").value;
-  document.getElementById("resultado").textContent =
-    `Actúa como ${rol}. Caso: ${caso}. Tarea: ${tarea}. Formato: ${formato}.`;
-}
-
-function generarAsistente() {
-  const nombre = document.getElementById("nombre").value;
-  const publico = document.getElementById("publico").value;
-  const tono = document.getElementById("tono").value;
-  const reglas = document.getElementById("reglas").value;
-  document.getElementById("resultado").textContent =
-    `Eres ${nombre}. Público objetivo: ${publico}. Tono: ${tono}. Comportamiento esperado: ${reglas}.`;
-}
-
-function copiarPrompt() {
-  const prompt = document.getElementById("resultado").textContent;
-  if (!prompt) return;
-  navigator.clipboard.writeText(prompt)
-    .then(() => alert("✅ Prompt copiado al portapapeles"))
-    .catch(() => alert("❌ Error al copiar el prompt"));
-}
-
-function sugerirModelo(tipo) {
-  const sugerencia = {
-    texto: "💡 Modelo sugerido: GPT-4 o GPT-4o, ideal para generación de textos con contexto y estilo.",
-    datos: "💡 Modelo sugerido: GPT-4 (para análisis avanzado) o GPT-3.5-turbo para estadísticas básicas.",
-    clinico: "💡 Modelo sugerido: GPT-4, con indicaciones clínicas explícitas (usa rol médico especializado).",
-    asistente: "💡 Modelo sugerido: GPT-4 o GPT-4o, con memoria activada para mantener coherencia conversacional."
-  };
-  document.getElementById("sugerenciaIA").textContent = sugerencia[tipo] || "";
-}
-
-function showForm() {
-  const type = document.getElementById("promptType").value;
-  const form = document.getElementById("formulario");
-  const output = document.getElementById("resultado");
-  const sugerencia = document.getElementById("sugerenciaIA");
-  output.textContent = "";
-  sugerencia.textContent = "";
-
-  const forms = {
-    texto: `
-      <label>Especialidad o rol experto:</label>
-      <input type="text" id="rol" placeholder="Ej: Médico especialista en Infectología">
-      <label>Tarea específica:</label>
-      <input type="text" id="tarea" placeholder="Ej: elaborar un resumen de la fisiopatología de la sepsis...">
-      <label>Contexto o audiencia:</label>
-      <input type="text" id="contexto" placeholder="Ej: para médicos en formación de postgrado">
-      <label>Estilo o tono deseado:</label>
-      <input type="text" id="tono" placeholder="Ej: tono narrativo técnico, voz neutral">
-      <label>Formato de salida:</label>
-      <input type="text" id="formato" placeholder="Ej: 2 párrafos de máximo 150 palabras">
-      <button onclick="generarTexto()">Generar Prompt</button>
-    `,
-    datos: `
-      <label>Rol analítico de la IA (Ej: Actúa como epidemiólogo experto):</label>
-      <input type="text" id="rol">
-      <label>Descripción del conjunto de datos (variables, cantidad, grupo poblacional, etc.):</label>
-      <textarea id="datos"></textarea>
-      <label>Tareas de análisis (Ej: calcular estadísticas, buscar correlaciones):</label>
-      <input type="text" id="tareas">
-      <label>Formato de resultados esperados (Ej: lista de insights, tabla, resumen por secciones):</label>
-      <input type="text" id="formato">
-      <button onclick="generarDatos()">Generar Prompt</button>
-    `,
-    clinico: `
-      <label>Rol clínico de la IA (Ej: Eres internista, cardiólogo, pediatra...):</label>
-      <input type="text" id="rol">
-      <label>Información clínica completa (edad, sexo, síntomas, antecedentes, hallazgos):</label>
-      <textarea id="caso"></textarea>
-      <label>Qué esperas que haga la IA (Ej: elaborar diagnóstico diferencial, plan de manejo):</label>
-      <input type="text" id="tarea">
-      <label>Cómo debe responder (Ej: lista priorizada de diagnósticos, tabla, pasos):</label>
-      <input type="text" id="formato">
-      <button onclick="generarClinico()">Generar Prompt</button>
-    `,
-    asistente: `
-      <label>Define quién es el asistente y qué debe hacer (Ej: Eres PromptDoc, ayudas a estructurar prompts en salud pública):</label>
-      <input type="text" id="nombre">
-      <label>¿A quién atenderá? (Ej: Médicos generales, estudiantes, especialistas):</label>
-      <input type="text" id="publico">
-      <label>¿Cómo debe comportarse? (Ej: Empático, técnico, formal, cercano):</label>
-      <input type="text" id="tono">
-      <label>¿Cómo debe saludar, responder, cerrar? ¿Qué no debe hacer? (Ej: No da consejos médicos reales, siempre ofrece ayuda adicional):</label>
-      <textarea id="reglas"></textarea>
-      <button onclick="generarAsistente()">Generar Prompt</button>
-    `
-  };
-
-  form.innerHTML = forms[type] || "";
-  sugerirModelo(type);
-}
-
-function mostrarEjemplo(tipo) {
-  const ejemplos = {
-    texto: `📋 Ejemplo:
-Eres un médico especialista en Infectología. Tu tarea es resumir las evidencias existentes en cuanto a la fisiopatología de la sepsis en adultos. 
-Contexto: para lectores médicos en formación de postgrado.
-Estilo: tono narrativo técnico, voz neutral.
-Formato: máximo 2 párrafos y 150 palabras.`,
-
-    datos: `📋 Ejemplo:
-Actúa como analista de datos en epidemiología.
-Base de datos: 561 mujeres embarazadas mayores de 21 años, con diagnóstico de diabetes.
-Tareas: calcula media, mediana, rango por variable; identifica factores de riesgo mediante regresión.
-Formato: lista con insights clave y sugerencia de visualizaciones.`,
-
-    clinico: `📋 Ejemplo:
-Actúa como internista.
-Paciente: mujer, 35 años, fiebre 5 días, tos productiva, dolor pleurítico.
-Rx: infiltrado LID; leucocitos 14,000.
-Tarea: diagnóstico diferencial con justificación y pruebas recomendadas.
-Formato: lista ordenada de diagnósticos con razonamiento.`,
-
-    asistente: `📋 Ejemplo:
-Eres PromptDoc, un asistente para redactar prompts en salud pública.
-Tu público: médicos en formación y epidemiólogos.
-Tono: técnico accesible, lenguaje claro. Siempre saluda cordialmente y ofrece ayuda adicional.
-Límites: no da consejos médicos reales.
-Ejemplo: Usuario: "¿Puedes ayudarme con un prompt?" – Asistente: "¡Hola! Claro, dime si tu prompt será para análisis de datos, casos clínicos, redacción o creación de bots."`
-  };
-
-  const container = document.getElementById("formulario");
-  const div = document.createElement("div");
-  div.className = "section output";
-  div.style.marginTop = "1rem";
-  div.textContent = ejemplos[tipo] || "";
-  container.appendChild(div);
-}
-const oldShowFormBase = showForm;
-showForm = function () {
-  oldShowFormBase();
-  const tipo = document.getElementById("promptType").value;
-  mostrarEjemplo(tipo);
-};
-// Cabeceras técnicas
+// Map of technical headers for each context
 const formHeaders = {
   texto:     "🔎 Sugerencia técnica: Define rol experto, tarea, contexto y formato de salida.",
   datos:     "🔎 Sugerencia técnica: Describe datos, rol analítico y tipo de análisis.",
@@ -223,7 +8,7 @@ const formHeaders = {
   asistente: "🔎 Sugerencia técnica: Define identidad del bot, audiencia y funciones."
 };
 
-// Formularios guiados
+// HTML snippets for each context
 const contextForms = {
   texto: `
     <div class="form-window">
@@ -261,13 +46,13 @@ const contextForms = {
       <div><label>2. Público objetivo:</label><input id="botAudience" placeholder="E.g.: Médicos residentes" /></div>
       <div><label>3. Personalidad/Tono:</label><input id="botTone" placeholder="E.g.: Empático y directo" /></div>
       <div><label>4. Funciones específicas:</label><input id="botFunctions" placeholder="E.g.: Sugerir plantillas de prompts clínicos" /></div>
-      <div><label>5. Ejemplo de interacción:</label><textarea id="botExample" rows="2" placeholder="E.g.: Usuario: ¿Cómo estructuro un prompt?"></textarea></div>
+      <div><label>5. Ejemplo de interacción:</label><textarea id="botExample" rows="2" placeholder="E.g.: Usuario: '¿Cómo estructuro un prompt?'"></textarea></div>
       <button onclick="buildPrompt()">Generar Prompt</button>
     </div>
   `
 };
 
-// Mapas de modelo e IA
+// Suggested models and complementary IA
 const modelMap = {
   texto:     "GPT-4 (ChatGPT)",
   datos:     "GPT-4 + Code Interpreter",
@@ -281,7 +66,7 @@ const iaMap = {
   asistente: "Research Rabbit, scite_, LangChain, FlowGPT"
 };
 
-// Al cambiar el tipo de prompt
+// Handle context change
 function onContextChange() {
   const type = document.getElementById("tipoPrompt").value;
   document.getElementById("formHeader").innerText    = formHeaders[type] || "";
@@ -289,63 +74,119 @@ function onContextChange() {
   document.getElementById("resultado").value         = "";
   document.getElementById("modeloSugerido").textContent = "";
   document.getElementById("sugerenciaIA").textContent = "";
+
+  // Add specialty-specific example for text generator
+  if (type === 'texto') {
+    const spec = document.getElementById('specialty').value;
+    const examples = {
+      'Medicina Interna': `Eres un internista experto. Tu tarea es describir el algoritmo diagnóstico completo para el síndrome nefrótico en adultos.
+Contexto: Residentes de segundo año de Medicina Interna.
+Estilo: Técnico y formal.
+Formato: Lista de pasos numerados con criterios de elección de pruebas.`,
+      'Pediatría': `Eres un pediatra neonatólogo. Tu tarea es elaborar un plan de nutrición enteral progresiva para prematuros menores de 32 semanas.
+Contexto: Médicos en formación en Neonatología.
+Estilo: Clínico y conciso.
+Formato: Tabla con fases, objetivos y volúmenes de alimentación.`,
+      'Anestesiología': `Eres un anestesiólogo. Tu tarea es comparar métodos de sedación (sedación consciente con midazolam vs sedación profunda con propofol vs sedación con ketamina) y describir el manejo de la vía aérea (laringoscopia directa, videolaringoscopio, mascarilla laríngea) en procedimientos quirúrgicos de corta duración.
+Contexto: Anestesistas en formación y personal de quirófano.
+Estilo: Técnico y conciso.
+Formato: Tabla comparativa que incluya dosis recomendadas, ventajas, desventajas y algoritmo de actuación ante vía aérea difícil.`,
+      'Cirugía General': `Eres un cirujano general. Tu tarea es describir paso a paso la técnica de apendicectomía laparoscópica.
+Contexto: Residentes de Cirugía.
+Estilo: Procedimental, paso a paso.
+Formato: Lista numerada con recomendaciones perioperatorias.`,
+      'Ginecología y Obstetricia': `Eres un obstetra. Tu tarea es describir el manejo de la preeclampsia severa en gestantes de 28–34 semanas.
+Contexto: Residentes de Obstetricia.
+Estilo: Basado en guías ACOG.
+Formato: Protocolo clínico con fases (diagnóstico, estabilización, seguimiento).`,
+      'Cuidados Intensivos': `Eres un intensivista. Tu tarea es elaborar un protocolo de sedación y analgesia para pacientes con SDRA en ventilación mecánica.
+Contexto: Médicos de UCI.
+Estilo: Conciso, orientado a flujos de trabajo.
+Formato: Diagrama de toma de decisiones y dosis recomendadas.`,
+      'Urgenciología': `Eres un urgenciólogo. Tu tarea es estructurar el algoritmo ABCDE para la valoración inicial de trauma torácico.
+Contexto: Médicos de sala de emergencias.
+Estilo: Check-list práctico.
+Formato: Lista de chequeo con puntos críticos y tiempos.`,
+      'Infectología': `Eres un infectólogo. Tu tarea es elaborar el esquema de tratamiento empírico para meningitis bacteriana en adultos.
+Contexto: Residentes de Infectología.
+Estilo: Basado en guías IDSA.
+Formato: Tabla de antibióticos con dosis y duración.`,
+      'Nefrología': `Eres un nefrólogo. Tu tarea es comparar indicaciones y contraindicaciones de diálisis peritoneal versus hemodiálisis en insuficiencia renal crónica.
+Contexto: Residentes de Nefrología.
+Estilo: Analítico, basado en evidencia.
+Formato: Tabla comparativa con ventajas y desventajas.`,
+      'Reumatología': `Eres un reumatólogo. Tu tarea es describir los criterios ACR/EULAR para el diagnóstico de artritis reumatoide y su puntuación.
+Contexto: Médicos generales y residentes.
+Estilo: Académico, detallado.
+Formato: Lista de criterios con puntos asignados.`,
+      'Otras Especialidades': `Eres un especialista en [Tu área]. Tu tarea es describir [tema concreto].
+Contexto: [Tu audiencia].
+Estilo: [Ej. técnico, formal, accesible].
+Formato: [Ej. lista numerada, tabla, párrafos breves].`
+    };
+    const exText = examples[spec] || examples['Otras Especialidades'];
+    const exDiv = document.createElement('div');
+    exDiv.className = 'form-header';
+    exDiv.style.background = '#fff1f2';
+    exDiv.style.borderLeft = '4px solid #be185d';
+    exDiv.style.marginTop = '1rem';
+    exDiv.innerText = '📋 Ejemplo:\n' + exText;
+    document.getElementById('formContainer').appendChild(exDiv);
+  }
 }
 
-// Construye el prompt
+// Build the final prompt
 function buildPrompt() {
-  const specialty = document.getElementById("specialty").value;
-  const type      = document.getElementById("tipoPrompt").value;
-  let prompt = "";
-  let preSpec = specialty !== "General"
+  const specialty = document.getElementById('specialty').value;
+  const type      = document.getElementById('tipoPrompt').value;
+  let prompt = '';
+  let preSpec = specialty !== 'General'
     ? `Eres un especialista en ${specialty}. `
-    : "";
+    : '';
 
-  if (type === "texto") {
-    let role = document.getElementById("role").value.trim();
+  if (type === 'texto') {
+    let role = document.getElementById('role').value.trim();
     if (role && !/^Eres/i.test(role)) role = `Eres un ${role}. `;
-    const task = document.getElementById("task").value.trim();
-    const ctx  = document.getElementById("context").value.trim();
-    const style= document.getElementById("style").value.trim();
-    const fmt  = document.getElementById("format").value.trim();
+    const task = document.getElementById('task').value.trim();
+    const ctx  = document.getElementById('context').value.trim();
+    const style= document.getElementById('style').value.trim();
+    const fmt  = document.getElementById('format').value.trim();
     prompt = `${preSpec}${role}Tu tarea es ${task}. Contexto: ${ctx}. Estilo: ${style}. Formato: ${fmt}.`;
-  }
-  else if (type === "datos") {
-    let role = document.getElementById("dataRole").value.trim();
+  } else if (type === 'datos') {
+    let role = document.getElementById('dataRole').value.trim();
     if (role && !/^Actúa/i.test(role)) role = `Actúa como ${role}. `;
-    const desc  = document.getElementById("dataDesc").value.trim();
-    const task  = document.getElementById("dataTask").value.trim();
-    const focus = document.getElementById("dataFocus").value.trim();
-    const fmt   = document.getElementById("dataFormat").value.trim();
+    const desc  = document.getElementById('dataDesc').value.trim();
+    const task  = document.getElementById('dataTask').value.trim();
+    const focus = document.getElementById('dataFocus').value.trim();
+    const fmt   = document.getElementById('dataFormat').value.trim();
     prompt = `${preSpec}${role}Datos: ${desc}. Tarea: ${task}. Enfoque: ${focus}. Formato: ${fmt}.`;
-  }
-  else if (type === "clinico") {
-    let role = document.getElementById("clinRole").value.trim();
+  } else if (type === 'clinico') {
+    let role = document.getElementById('clinRole').value.trim();
     if (role && !/^Eres/i.test(role)) role = `Eres un ${role}. `;
-    const cc   = document.getElementById("clinCase").value.trim();
-    const task = document.getElementById("clinTask").value.trim();
-    const gui  = document.getElementById("clinGuide").value.trim();
-    const fmt  = document.getElementById("clinFormat").value.trim();
+    const cc   = document.getElementById('clinCase').value.trim();
+    const task = document.getElementById('clinTask').value.trim();
+    const gui  = document.getElementById('clinGuide').value.trim();
+    const fmt  = document.getElementById('clinFormat').value.trim();
     prompt = `${preSpec}${role}Caso: ${cc}. Tarea: ${task}. Guías: ${gui}. Formato: ${fmt}.`;
-  }
-  else if (type === "asistente") {
-    let role = document.getElementById("botRole").value.trim();
+  } else if (type === 'asistente') {
+    let role = document.getElementById('botRole').value.trim();
     if (role && !/^Eres/i.test(role)) role = `Eres ${role}. `;
-    const aud = document.getElementById("botAudience").value.trim();
-    const tone= document.getElementById("botTone").value.trim();
-    const fun = document.getElementById("botFunctions").value.trim();
-    const ex  = document.getElementById("botExample").value.trim();
+    const aud = document.getElementById('botAudience').value.trim();
+    const tone= document.getElementById('botTone').value.trim();
+    const fun = document.getElementById('botFunctions').value.trim();
+    const ex  = document.getElementById('botExample').value.trim();
     prompt = `${preSpec}${role}para ${aud}. Personalidad: ${tone}. Funciones: ${fun}. Ejemplo: ${ex}.`;
   }
 
-  document.getElementById("resultado").value           = prompt;
-  document.getElementById("modeloSugerido").textContent = modelMap[type] || "";
-  document.getElementById("sugerenciaIA").textContent  = iaMap[type]    || "";
+  document.getElementById('resultado').value           = prompt;
+  document.getElementById('modeloSugerido').textContent = modelMap[type] || '';
+  document.getElementById('sugerenciaIA').textContent  = iaMap[type]    || '';
 }
 
-// Copiar prompt
+// Copy prompt to clipboard
 function copiarPrompt() {
-  const ta = document.getElementById("resultado");
+  const ta = document.getElementById('resultado');
   ta.select();
-  document.execCommand("copy");
-  alert("✅ Prompt copiado al portapapeles.");
+  document.execCommand('copy');
+  alert('✅ Prompt copiado al portapapeles.');
 }
